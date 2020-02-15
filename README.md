@@ -15,9 +15,30 @@ This is a python implementation of the Bayesian Hierarchical Clustering algorith
 
 `$ python example.py`
 
-4. Check out the output images in the [results](results/) folder. 
+4. Check out the output images in the [results](results/) folder.
 
 **Note**: You can optionally add your own data in the file [data.csv](data/data.csv) but the hyperparameters must be optimized.
+
+## What to expect from the example code
+A plot of the input data (2D). Suppose we want to find two clusters of data (orange and blue).
+
+<p align="center">
+  <a href="results/data_plot.png"><img src="results/data_plot.png" width="500"></a>
+</p>
+
+Dendrograms obtained from linkage algorithms. Notice that, none of them can tell us the presence of the two clusters.
+
+<p align="center">
+  <a href="results/linkage_single_plot.png"><img src="results/linkage_single_plot.png" width="250"></a> 
+  <a href="results/linkage_complete_plot.png"><img src="results/linkage_complete_plot.png" width="250"></a> 
+  <a href="results/linkage_average_plot.png"><img src="results/linkage_average_plot.png" width="250"></a>
+</p>
+
+A hierarchy obtained from the Bayesian hierarchical clustering algorithm. Notice that, two clusters have been identified containing the expected data points (leaves).
+
+<p align="center">
+  <a href="results/bhc_plot.png"><img src="results/bhc_plot.png" width="600"></a> 
+</p>
 
 ## Contribute
 All contributions are welcome, so don't hesitate to submit a pull request. ;-)
