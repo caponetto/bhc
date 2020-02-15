@@ -35,7 +35,7 @@ def main():
 
 def plot_data(data):
     plt.style.use('seaborn-poster')
-    plt.figure(facecolor="white", figsize=(8, 6))
+    plt.figure(facecolor="white", figsize=(6, 4))
     ax = plt.gca()
     ax.set_axisbelow(True)
 
@@ -60,7 +60,7 @@ def plot_data(data):
     plt.yticks(np.arange(0, 11 + 1, 1), fontsize=14)
 
     plt.draw()
-    plt.savefig('results/data_plot.png', format='png', dpi=1200)
+    plt.savefig('results/data_plot.png', format='png', dpi=100)
 
 
 def run_linkage(data, method):
@@ -69,7 +69,7 @@ def run_linkage(data, method):
     dn = dendrogram(Z)
     plt.draw()
     plt.savefig(
-        'results/linkage_{0}_plot.png'.format(method), format='png', dpi=1200)
+        'results/linkage_{0}_plot.png'.format(method), format='png', dpi=100)
 
 
 def run_bhc(data):
