@@ -2,6 +2,9 @@
 This is a python implementation of the Bayesian Hierarchical Clustering algorithm proposed by Heller & Ghahramani (2005).
 > HELLER, Katherine A.; GHAHRAMANI, Zoubin. Bayesian hierarchical clustering. In: **Proceedings of the 22nd international conference on Machine learning**. 2005. p. 297-304.
 
+It also includes the Bayesian Rose Trees extension proposed by Blundell et al (2012).
+> BLUNDELL, Charles; TEH, Yee Whye; HELLER, Katherine A. Bayesian rose trees. arXiv preprint arXiv:1203.3468, 2012.
+
 ## How to run the code
 1. Create an anaconda environment using the file [environment.yml](environment.yml).
 
@@ -34,10 +37,16 @@ Dendrograms obtained from linkage algorithms. Notice that, none of them can tell
   <a href="results/linkage_average_plot.png"><img src="results/linkage_average_plot.png" width="250"></a>
 </p>
 
-A hierarchy obtained from the Bayesian hierarchical clustering algorithm. Notice that, two clusters have been identified containing the expected data points (leaves).
+A binary hierarchy obtained from the Bayesian hierarchical clustering algorithm. Notice that, two clusters have been identified containing the expected data points (leaves).
 
 <p align="center">
   <a href="results/bhc_plot.png"><img src="results/bhc_plot.png" width="600"></a> 
+</p>
+
+A non-binary hierarchy obtained from the Bayesian rose trees algorithm. Notice that, two clusters have been identified containing the expected data points (leaves).
+
+<p align="center">
+  <a href="results/brt_plot.png"><img src="results/brt_plot.png" width="600"></a> 
 </p>
 
 ## Contribute
