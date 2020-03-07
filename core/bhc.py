@@ -12,7 +12,10 @@ from core.api import Arc, AbstractBayesianBasedHierarchicalClustering
 
 class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering):
     """
-    Reference: "Bayesian Hierarchical Clustering - KA Heller (2005)"
+    Reference: HELLER, Katherine A.; GHAHRAMANI, Zoubin. 
+               Bayesian hierarchical clustering. 
+               In: Proceedings of the 22nd international conference on Machine learning. 2005. p. 297-304.
+               http://mlg.eng.cam.ac.uk/zoubin/papers/icml05heller.pdf
     """
     def __init__(self, data, model, alpha, cut_allowed):
         super().__init__(data, model, alpha, cut_allowed)

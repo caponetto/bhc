@@ -15,7 +15,10 @@ LOG2 = np.log(2)
 
 class NormalInverseWishart(AbstractPrior):
     """
-    Reference: "Conjugate Bayesian analysis of the Gaussian distribution, KP Murphy (2007)"
+    Reference: MURPHY, Kevin P. 
+               Conjugate Bayesian analysis of the Gaussian distribution. 
+               def, v. 1, n. 2σ2, p. 16, 2007.
+               https://www.cse.iitk.ac.in/users/piyush/courses/tpmi_winter19/readings/bayesGauss.pdf
     """
 
     def __init__(self, S, r, v, m):

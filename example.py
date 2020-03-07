@@ -11,14 +11,8 @@ from graphviz import Digraph
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 from core.bhc import BayesianHierarchicalClustering
+from core.brt import BayesianRoseTrees
 from core.prior import NormalInverseWishart
-
-
-# Hyper-parameters (these values should be optimized!)
-G = 20
-SCALLING_FACTOR = 0.001
-ALPHA = 1
-CUT_ALLOWED = True
 
 
 def main():
@@ -31,6 +25,7 @@ def main():
     run_linkage(data, 'average')
 
     run_bhc(data)
+    run_brt(data)
 
 
 def plot_data(data):
@@ -73,27 +68,58 @@ def run_linkage(data, method):
 
 
 def run_bhc(data):
-    degrees_of_freedom = data.shape[1] + 1
-    data_mean = np.mean(data, axis=0)
-    data_matrix_cov = np.cov(data.T)
-    scatter_matrix = (data_matrix_cov / G).T
+    # Hyper-parameters (these values must be optimized!)
+    g = 20
+    scalling_factor = 0.001
+    alpha = 1
 
-    model = NormalInverseWishart(scatter_matrix,
-                                 SCALLING_FACTOR,
-                                 degrees_of_freedom,
-                                 data_mean)
+    model = create_model(data, g, scalling_factor)
 
     bhc = BayesianHierarchicalClustering(data,
                                          model,
-                                         ALPHA,
-                                         CUT_ALLOWED)
+                                         alpha,
+                                         cut_allowed=True)
 
     result = bhc.build()
 
-    build_graph(result['node_ids'], result['arc_list'])
+    build_graph(result['node_ids'],
+                result['arc_list'],
+                'results/bhc_plot')
 
 
-def build_graph(node_ids, arc_list):
+def run_brt(data):
+    # Hyper-parameters (these values must be optimized!)
+    g = 10
+    scalling_factor = 0.001
+    alpha = 0.5
+
+    model = create_model(data, g, scalling_factor)
+
+    brt = BayesianRoseTrees(data,
+                            model,
+                            alpha,
+                            cut_allowed=True)
+
+    result = brt.build()
+
+    build_graph(result['node_ids'],
+                result['arc_list'],
+                'results/brt_plot')
+
+
+def create_model(data, g, scalling_factor):
+    degrees_of_freedom = data.shape[1] + 1
+    data_mean = np.mean(data, axis=0)
+    data_matrix_cov = np.cov(data.T)
+    scatter_matrix = (data_matrix_cov / g).T
+
+    return NormalInverseWishart(scatter_matrix,
+                                scalling_factor,
+                                degrees_of_freedom,
+                                data_mean)
+
+
+def build_graph(node_ids, arc_list, filename):
     dag = Digraph()
 
     for id in node_ids:
@@ -102,7 +128,7 @@ def build_graph(node_ids, arc_list):
     for arc in arc_list:
         dag.edge(str(arc.source), str(arc.target))
 
-    dag.render(filename='results/bhc_plot', format='png', cleanup=True)
+    dag.render(filename=filename, format='png', cleanup=True)
 
 
 if __name__ == "__main__":
