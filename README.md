@@ -52,6 +52,12 @@ A non-binary hierarchy obtained from the Bayesian rose trees algorithm. Notice t
 ## Contribute
 All contributions are welcome, so don't hesitate to submit a pull request. ;-)
 
+## Troubleshooting
+
+If you run into issues with graphviz when running the example, you might need to install it through
+
+`sudo apt-get install python-pydot python-pydot-ng graphviz`
+
 ## License
 This code is released under GPL 3.0 License.
 
