@@ -7,7 +7,7 @@ import numpy as np
 from numpy.linalg import linalg
 from scipy.special.spfun_stats import multigammaln
 
-from core.api import AbstractPrior
+from bhc.api import AbstractPrior
 
 LOG2PI = np.log(2 * np.pi)
 LOG2 = np.log(2)

@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 from graphviz import Digraph
 from scipy.cluster.hierarchy import dendrogram, linkage
 
-from core.bhc import BayesianHierarchicalClustering
-from core.brt import BayesianRoseTrees
-from core.prior import NormalInverseWishart
+from bhc.core.bhc import BayesianHierarchicalClustering
+from bhc.core.brt import BayesianRoseTrees
+from bhc.core.prior import NormalInverseWishart
 
 
 def main():

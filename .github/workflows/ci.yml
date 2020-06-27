@@ -30,3 +30,6 @@ jobs:
     - name: Run example file
       run: |
         python example.py
+    - name: Test with pytest
+      run: |
+        pytest

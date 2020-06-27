@@ -10,7 +10,7 @@ from scipy.special import gammaln
 from enum import IntEnum
 from enum import unique
 
-from core.api import Arc, AbstractBayesianBasedHierarchicalClustering
+from bhc.api import Arc, AbstractBayesianBasedHierarchicalClustering
 
 
 @unique

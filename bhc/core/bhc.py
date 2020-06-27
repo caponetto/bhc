@@ -7,7 +7,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.special import gammaln
 
-from core.api import Arc, AbstractBayesianBasedHierarchicalClustering
+from bhc.api import Arc, AbstractBayesianBasedHierarchicalClustering
 
 
 class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering):
