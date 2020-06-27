@@ -3,8 +3,10 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  - python=3.6.9
-  - numpy=1.16.5
-  - matplotlib=3.1.1
-  - python-graphviz=0.13.2
-  - scipy=1.4.1
+  - python=3.8.3
+  - numpy=1.18.5
+  - matplotlib=3.2.2
+  - python-graphviz=0.14
+  - scipy=1.5.0
+  - pydot=1.4.1
+  - graphviz=2.40.1
