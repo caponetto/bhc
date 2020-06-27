@@ -25,7 +25,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Install python-pydot python-pydot-ng graphviz
-      run: sudo apt-get install python-pydot python-pydot-ng graphviz
+      run: |
+        sudo apt-get install python-pydot python-pydot-ng graphviz
     - name: Run example file
       run: |
         python example.py
