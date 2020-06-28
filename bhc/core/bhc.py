@@ -17,6 +17,7 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
                In: Proceedings of the 22nd international conference on Machine learning. 2005. p. 297-304.
                http://mlg.eng.cam.ac.uk/zoubin/papers/icml05heller.pdf
     """
+
     def __init__(self, data, model, alpha, cut_allowed):
         super().__init__(data, model, alpha, cut_allowed)
 
