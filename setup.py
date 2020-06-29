@@ -3,9 +3,9 @@
 # License: GPL 3.0
 
 import setuptools
+import versioneer
 
 NAME = "bhc"
-VERSION = "0.1.0"
 AUTHOR = "Guilherme Caponetto"
 URL = "https://github.com/caponetto/bhc"
 LICENSE = "GPL-3.0"
@@ -36,7 +36,8 @@ CLASSIFIERS = [
 ]
 
 setuptools.setup(name=NAME,
-                 version=VERSION,
+                 version=versioneer.get_version(),
+                 cmdclass=versioneer.get_cmdclass(),
                  description=DESCRIPTION,
                  long_description=LONG_DESCRIPTION,
                  long_description_content_type="text/markdown",

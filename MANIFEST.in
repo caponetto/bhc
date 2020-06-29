@@ -1,4 +1,7 @@
 include LICENSE
+include versioneer.py
+include bhc/_version.py
+
 exclude README.md
 
 recursive-exclude * __pycache__
