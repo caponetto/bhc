@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
+          pip install pytest coverage wheel flake8-black
           pip install -r requirements.txt
       - name: Install python-pydot python-pydot-ng graphviz
         run: |
@@ -29,9 +29,14 @@ jobs:
       - name: Run example file
         run: |
           python example.py
-      - name: Test with pytest
+      - name: Lint with flake8
         run: |
-          pytest
+          flake8 . --count --show-source --statistics
+          flake8 . --count --exit-zero --statistics
+      - name: Test and coverage
+        run: |
+          coverage run -m pytest
+          coverage html -d coverage_report
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel
@@ -40,3 +45,8 @@ jobs:
         with:
           name: bhc
           path: dist/
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: coverage_report/

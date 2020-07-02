@@ -3,6 +3,7 @@
 # License: GPL 3.0
 
 import setuptools
+
 import versioneer
 
 NAME = "bhc"
@@ -43,7 +44,7 @@ setuptools.setup(name=NAME,
                  long_description_content_type="text/markdown",
                  url=URL,
                  author=AUTHOR,
-                 author_email="",
+                 author_email="N/A",
                  include_package_data=True,
                  license=LICENSE,
                  install_requires=REQUIREMENTS,

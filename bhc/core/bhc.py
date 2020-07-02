@@ -3,18 +3,18 @@
 # License: GPL 3.0
 
 import numpy as np
-
-from abc import ABC, abstractmethod
 from scipy.special import gammaln
 
-from bhc.api import Arc, AbstractBayesianBasedHierarchicalClustering
+import bhc.api as api
 
 
-class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering):
+class BayesianHierarchicalClustering(
+        api.AbstractBayesianBasedHierarchicalClustering):
     """
-    Reference: HELLER, Katherine A.; GHAHRAMANI, Zoubin. 
-               Bayesian hierarchical clustering. 
-               In: Proceedings of the 22nd international conference on Machine learning. 2005. p. 297-304.
+    Reference: HELLER, Katherine A.; GHAHRAMANI, Zoubin.
+               Bayesian hierarchical clustering.
+               In: Proceedings of the 22nd international conference on
+                   Machine learning. 2005. p. 297-304.
                http://mlg.eng.cam.ac.uk/zoubin/papers/icml05heller.pdf
     """
 
@@ -71,7 +71,7 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
                     else np.vstack((tmp_merge, merge_info))
 
         # find clusters to merge
-        arc_list = np.empty(0, dtype=Arc)
+        arc_list = np.empty(0, dtype=api.Arc)
         while active_nodes.size > 1:
             # find i, j with the highest probability of the merged hypothesis
             max_log_rk = np.max(tmp_merge[:, 2])
@@ -107,8 +107,8 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
             assignments[np.argwhere(assignments == j)] = ij
 
             # create arcs from ij to i,j
-            arc_i = Arc(ij, i)
-            arc_j = Arc(ij, j)
+            arc_i = api.Arc(ij, i)
+            arc_j = api.Arc(ij, j)
             arc_list = np.append(arc_list, [arc_i, arc_j])
 
             # delete i,j from active list and add ij
@@ -123,7 +123,7 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
             log_p = np.append(log_p, log_p_ij)
 
             # for every pair ij x active
-            X_ij = self.data[np.argwhere(assignments == ij).flatten()]
+            x_mat_ij = self.data[np.argwhere(assignments == ij).flatten()]
             for k in range(active_nodes.size - 1):
                 # compute log(d_k)
                 n_ch = n[k] + n[ij]
@@ -136,7 +136,7 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
                 data_merged = self.data[np.argwhere(
                     assignments == active_nodes[k]).flatten()]
                 log_p_ij = self.model.calc_log_mlh(
-                    np.vstack((X_ij, data_merged)))
+                    np.vstack((x_mat_ij, data_merged)))
                 # compute log(r_k)
                 log_p_ch = log_p[ij] + log_p[active_nodes[k]]
                 r1 = log_pik + log_p_ij
@@ -146,14 +146,12 @@ class BayesianHierarchicalClustering(AbstractBayesianBasedHierarchicalClustering
                 merge_info = [ij, active_nodes[k], log_r, r1, r2]
                 tmp_merge = np.vstack((tmp_merge, merge_info))
 
-        return {
-            'arc_list': arc_list,
-            'hierarchy_cut': hierarchy_cut,
-            'last_log_p': log_p[-1],
-            'node_ids': np.arange(0, ij + 1),
-            'n_clusters': len(np.unique(assignments)),
-            'weights': np.array(weights)
-        }
+        return api.Result(arc_list,
+                          np.arange(0, ij + 1),
+                          log_p[-1],
+                          np.array(weights),
+                          hierarchy_cut,
+                          len(np.unique(assignments)))
 
     @staticmethod
     def __calc_log_d(alpha, nk, log_d_ch):

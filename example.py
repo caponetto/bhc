@@ -4,15 +4,14 @@
 
 import sys
 
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
 from graphviz import Digraph
 from scipy.cluster.hierarchy import dendrogram, linkage
 
-from bhc.core.bhc import BayesianHierarchicalClustering
-from bhc.core.brt import BayesianRoseTrees
-from bhc.core.prior import NormalInverseWishart
+from bhc import (BayesianHierarchicalClustering,
+                 BayesianRoseTrees,
+                 NormalInverseWishart)
 
 
 def main():
@@ -61,7 +60,7 @@ def plot_data(data):
 def run_linkage(data, method):
     plt.clf()
     Z = linkage(data, method)
-    dn = dendrogram(Z)
+    dendrogram(Z)
     plt.draw()
     plt.savefig(
         'results/linkage_{0}_plot.png'.format(method), format='png', dpi=100)
@@ -70,53 +69,37 @@ def run_linkage(data, method):
 def run_bhc(data):
     # Hyper-parameters (these values must be optimized!)
     g = 20
-    scalling_factor = 0.001
+    scale_factor = 0.001
     alpha = 1
 
-    model = create_model(data, g, scalling_factor)
+    model = NormalInverseWishart.create(data, g, scale_factor)
 
-    bhc = BayesianHierarchicalClustering(data,
-                                         model,
-                                         alpha,
-                                         cut_allowed=True)
+    bhc_result = BayesianHierarchicalClustering(data,
+                                                model,
+                                                alpha,
+                                                cut_allowed=True).build()
 
-    result = bhc.build()
-
-    build_graph(result['node_ids'],
-                result['arc_list'],
+    build_graph(bhc_result.node_ids,
+                bhc_result.arc_list,
                 'results/bhc_plot')
 
 
 def run_brt(data):
     # Hyper-parameters (these values must be optimized!)
     g = 10
-    scalling_factor = 0.001
+    scale_factor = 0.001
     alpha = 0.5
 
-    model = create_model(data, g, scalling_factor)
+    model = NormalInverseWishart.create(data, g, scale_factor)
 
-    brt = BayesianRoseTrees(data,
-                            model,
-                            alpha,
-                            cut_allowed=True)
+    brt_result = BayesianRoseTrees(data,
+                                   model,
+                                   alpha,
+                                   cut_allowed=True).build()
 
-    result = brt.build()
-
-    build_graph(result['node_ids'],
-                result['arc_list'],
+    build_graph(brt_result.node_ids,
+                brt_result.arc_list,
                 'results/brt_plot')
-
-
-def create_model(data, g, scalling_factor):
-    degrees_of_freedom = data.shape[1] + 1
-    data_mean = np.mean(data, axis=0)
-    data_matrix_cov = np.cov(data.T)
-    scatter_matrix = (data_matrix_cov / g).T
-
-    return NormalInverseWishart(scatter_matrix,
-                                scalling_factor,
-                                degrees_of_freedom,
-                                data_mean)
 
 
 def build_graph(node_ids, arc_list, filename):
